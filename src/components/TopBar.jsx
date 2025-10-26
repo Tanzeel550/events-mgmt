@@ -1,11 +1,4 @@
-import {
-	AppBar,
-	Toolbar,
-	Typography,
-	Button,
-	Box,
-	Container,
-} from '@mui/material';
+import {AppBar, Box, Button, Container, Toolbar, Typography,} from '@mui/material';
 import {CorporateFare} from '@mui/icons-material';
 import {useRouter} from "next/router";
 import {useSelector} from "react-redux";
@@ -26,7 +19,21 @@ const TopBar = () => {
 			<Container maxWidth="xl">
 				<Toolbar sx={{justifyContent: 'space-between', px: {xs: 0, sm: 2}}}>
 					{/* Company Logo */}
-					<Box sx={{display: 'flex', alignItems: 'center', gap: 1}}>
+					<Box
+						component="a"
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							gap: 1,
+							textDecoration: 'none',
+							color: 'inherit',
+							cursor: 'pointer'
+						}}
+						onClick={e => {
+							e.preventDefault();
+							router.push('/');
+						}}
+					>
 						<CorporateFare
 							sx={{
 								color: 'primary.main',
@@ -41,7 +48,7 @@ const TopBar = () => {
 								display: {xs: 'none', sm: 'block'}
 							}}
 						>
-							CompanyName
+							Zeelus
 						</Typography>
 					</Box>
 
@@ -94,41 +101,40 @@ const TopBar = () => {
 								Create
 							</Button>
 						</Box> :
-					<Box sx={{display: 'flex', gap: 1}}>
-						<Button
-							color="inherit"
-							sx={{
-								color: 'text.primary',
-								'&:hover': {
-									color: 'primary.main',
-									backgroundColor: 'transparent'
-								}
-							}}
-							onClick={e => {
-								e.preventDefault();
-								router.push('/login');
-							}}
-						>
-							Login
-						</Button>
-						<Button
-							variant="contained"
-							sx={{
-								backgroundColor: 'primary.main',
-								'&:hover': {
-									backgroundColor: 'primary.dark'
-								}
-							}}
-							onClick={e => {
-								e.preventDefault();
-								router.push('/signup');
-							}}
-						>
-							Sign Up
-						</Button>
-					</Box>
+						<Box sx={{display: 'flex', gap: 1}}>
+							<Button
+								color="inherit"
+								sx={{
+									color: 'text.primary',
+									'&:hover': {
+										color: 'primary.main',
+										backgroundColor: 'transparent'
+									}
+								}}
+								onClick={e => {
+									e.preventDefault();
+									router.push('/login');
+								}}
+							>
+								Login
+							</Button>
+							<Button
+								variant="contained"
+								sx={{
+									backgroundColor: 'primary.main',
+									'&:hover': {
+										backgroundColor: 'primary.dark'
+									}
+								}}
+								onClick={e => {
+									e.preventDefault();
+									router.push('/signup');
+								}}
+							>
+								Sign Up
+							</Button>
+						</Box>
 					}
-
 
 
 				</Toolbar>

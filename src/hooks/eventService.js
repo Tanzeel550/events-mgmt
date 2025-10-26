@@ -1,5 +1,5 @@
 import useCustomReactQuery from '../hooks/useCustomReactQuery';
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import axios from "axios";
 
@@ -101,20 +101,17 @@ export const useUpdateEvent = () => {
 	};
 }
 
-export const useDeleteEvent = (eventId) => {
-	const {response, error, loading, execute} = useCustomReactQuery(
-		`/api/v1/events/${eventId}`,
-		'DELETE',
-		null,
-		{},
-		null
-	);
-
-	const deleteEvent = async () => {
-		return await execute();
-	};
-
-	return {deleteEvent, response, error, loading};
+export const useDeleteEvent = async (eventId) => {
+	try {
+		await axios.delete(`/api/v1/events/${eventId}`, {
+			withCredentials: true
+		});
+		return true;
+	} catch (err) {
+		const errorMessage = err.response?.data?.message || 'Failed to delete event';
+		toast.error(errorMessage);
+		return false;
+	}
 };
 
 export const useGetEvents = () => {
@@ -135,7 +132,7 @@ export const useGetEvents = () => {
 
 		try {
 			console.log(params);
-			const response = await axios.get('/api/v1/events', { params });
+			const response = await axios.get('/api/v1/events', {params});
 			const result = response.data;
 
 			if (result.status === "success") {

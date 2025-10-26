@@ -75,7 +75,7 @@ const SearchSection = ({submitFilters}) => {
 		backgroundAttachment: isMobile ? 'scroll' : 'fixed',
 		py: isMobile ? 4 : 8,
 		px: isSmallMobile ? 1 : 2,
-		minHeight: '100vh',
+		minHeight: '85vh',
 		display: 'flex',
 		alignItems: 'center',
 	};
@@ -114,7 +114,6 @@ const SearchSection = ({submitFilters}) => {
 								fontSize: {
 									xs: '1.5rem',
 									sm: '2rem',
-									md: '2.5rem'
 								}
 							}}
 						>
@@ -131,7 +130,7 @@ const SearchSection = ({submitFilters}) => {
 									placeholder="Enter title..."
 									fullWidth
 									variant="outlined"
-									size={isSmallMobile ? "small" : "medium"}
+									// size={isSmallMobile ? "small" : "medium"}
 								/>
 								<Box>
 									<Typography

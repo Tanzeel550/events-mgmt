@@ -1,7 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {useDispatch} from 'react-redux';
-import {Alert, Box, Button, CircularProgress, Container, Paper, Stack, TextField, Typography,} from '@mui/material';
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Container,
+	IconButton,
+	InputAdornment,
+	Paper,
+	Stack,
+	TextField,
+	Typography,
+} from '@mui/material';
+import {Lock, Visibility, VisibilityOff} from '@mui/icons-material';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
@@ -11,6 +23,12 @@ import {toast} from "react-toastify";
 
 const Signup = () => {
 	const router = useRouter();
+	const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
+	useEffect(() => {
+		if (isLoggedIn) router.push('/');
+	}, [])
+
 	const dispatch = useDispatch();
 	const {signup, response, error, loading} = useSignup();
 
@@ -154,11 +172,13 @@ const Signup = () => {
 							Create Account
 						</Typography>
 
+						{/*
 						{error && (
 							<Alert severity="error" sx={{mb: 3, borderRadius: 2}}>
 								{error}
 							</Alert>
 						)}
+*/}
 
 						<Box component="form" onSubmit={handleSubmit}>
 							<Stack spacing={3}>
@@ -196,22 +216,50 @@ const Signup = () => {
 
 								<TextField
 									label="Password"
-									type="password"
+									type={showPassword ? 'text' : 'password'}
 									value={formData.password}
 									onChange={handleChange('password')}
 									error={!!formErrors.password}
 									helperText={formErrors.password}
 									fullWidth
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<Lock sx={{color: 'text.secondary'}}/>
+											</InputAdornment>
+										),
+										endAdornment: (
+											<InputAdornment position="end">
+												<IconButton onClick={handleClickShowPassword} edge="end">
+													{showPassword ? <VisibilityOff/> : <Visibility/>}
+												</IconButton>
+											</InputAdornment>
+										),
+									}}
 								/>
 
 								<TextField
 									label="Confirm Password"
-									type="password"
+									type={showConfirmPassword ? 'text' : 'password'}
 									value={formData.confirmPassword}
 									onChange={handleChange('confirmPassword')}
 									error={!!formErrors.confirmPassword}
 									helperText={formErrors.confirmPassword}
 									fullWidth
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position="start">
+												<Lock sx={{color: 'text.secondary'}}/>
+											</InputAdornment>
+										),
+										endAdornment: (
+											<InputAdornment position="end">
+												<IconButton onClick={handleClickShowConfirmPassword} edge="end">
+													{showConfirmPassword ? <VisibilityOff/> : <Visibility/>}
+												</IconButton>
+											</InputAdornment>
+										),
+									}}
 								/>
 
 								<Button

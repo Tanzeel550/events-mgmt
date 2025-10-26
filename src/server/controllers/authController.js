@@ -2,6 +2,7 @@ const {catchAsync} = require("./errorController");
 const userModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const CustomError = require("../utils/customError");
+const {sendLoginEmail, sendSignupEmail} = require('./../utils/sendEmail')
 
 const createToken = (id) => {
 	return jwt.sign({id}, process.env.PWD_TOKEN_SECRET, {
@@ -27,6 +28,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 	res.status(200).cookie("token", token).send({
 		status: "success", token, message: "Signup successful", data: {user}
 	});
+	await sendSignupEmail(user);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -47,6 +49,7 @@ exports.login = catchAsync(async (req, res, next) => {
 	res.status(200).cookie("token", token).send({
 		status: "success", token, message: "Login successful", data: {user}
 	});
+	await sendLoginEmail(user);
 });
 
 exports.secure = catchAsync(async (req, res, next) => {

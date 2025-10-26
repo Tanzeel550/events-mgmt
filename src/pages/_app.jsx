@@ -7,6 +7,9 @@ import {ToastContainer} from "react-toastify";
 import {useEffect, useState} from "react";
 import {useGetMe} from "@/hooks/authservices";
 import {login} from "@/store/userSlice";
+import Loader from "@/components/utils/Loader";
+import '../stylesheet.css'
+import Footer from "@/components/Footer";
 
 
 function MyApp({Component, pageProps}) {
@@ -21,11 +24,7 @@ function MyApp({Component, pageProps}) {
 		});
 	}, [])
 
-	if (loading) {
-		return (<Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-			<CircularProgress/>
-		</Box>);
-	}
+	if (loading) return <Loader/>
 
 	return (
 		<Provider store={store}>
@@ -34,6 +33,7 @@ function MyApp({Component, pageProps}) {
 				<ToastContainer/>
 				<TopBar/>
 				<Component {...pageProps} />
+				<Footer/>
 			</ThemeProvider>
 		</Provider>
 	);

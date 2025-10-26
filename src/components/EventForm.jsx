@@ -135,14 +135,26 @@ const EventForm = ({
 
 	return (
 		<LocalizationProvider dateAdapter={AdapterDateFns}>
-			<Box sx={backgroundStyle}>
+			<Box
+				sx={{
+					minHeight: '100vh',
+					backgroundColor: '#f8fafc',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					py: 4,
+					px: 2,
+				}}
+			>
 				<Container component="main" maxWidth="md">
 					<Paper
-						elevation={8}
+						elevation={0}
 						sx={{
-							p: {xs: 3, md: 4},
-							borderRadius: 3,
-							backgroundColor: 'white',
+							p: 4,
+							borderRadius: 2,
+							backgroundColor: '#ffffff',
+							boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
+							border: '1px solid #e5e7eb',
 						}}
 					>
 						<Typography
@@ -151,13 +163,9 @@ const EventForm = ({
 							align="center"
 							gutterBottom
 							sx={{
-								fontWeight: 'bold',
-								color: 'text.primary',
+								fontWeight: '600',
+								color: 'primary.main',
 								mb: 3,
-								background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-								backgroundClip: 'text',
-								WebkitBackgroundClip: 'text',
-								// color: 'transparent',
 							}}
 						>
 							{submitButtonText}
@@ -273,17 +281,8 @@ const EventForm = ({
 									disabled={loading}
 									sx={{
 										py: 1.5,
-										fontSize: '1.1rem',
-										background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-										'&:hover': {
-											background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)',
-											transform: 'translateY(-1px)',
-											boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-										},
-										'&:disabled': {
-											background: 'grey.300',
-										},
-										transition: 'all 0.3s ease',
+										fontSize: '1rem',
+										fontWeight: '600',
 									}}
 									startIcon={loading ? <CircularProgress size={20} color="inherit"/> : <Add/>}
 								>

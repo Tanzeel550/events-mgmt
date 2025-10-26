@@ -4,9 +4,17 @@ import {Box, CircularProgress, Typography} from "@mui/material";
 import EventForm from "@/components/EventForm";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
+import Loader from "@/components/utils/Loader";
+import {useSelector} from "react-redux";
 
 const EditEventPage = () => {
 	const router = useRouter();
+	const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
+	useEffect(() => {
+		if (!isLoggedIn) router.push('/login');
+	}, [])
+
 	const {id} = router.query;
 
 	const {event, loading, error} = useGetEvent(id);
@@ -33,11 +41,7 @@ const EditEventPage = () => {
 		}
 	}, [event]);
 
-	if (loading) {
-		return (<Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-			<CircularProgress/>
-		</Box>);
-	}
+	if (loading) return <Loader/>
 
 	if (error) {
 		return (<Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">

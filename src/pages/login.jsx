@@ -1,29 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
+import {useDispatch, useSelector} from 'react-redux';
 import {
 	Box,
-	Container,
-	Paper,
-	Typography,
-	TextField,
 	Button,
-	Stack,
-	Alert,
 	CircularProgress,
+	Container,
+	InputAdornment,
+	Paper,
+	Stack,
+	TextField,
+	Typography,
+	IconButton
 } from '@mui/material';
 import {useLogin} from "@/hooks/authservices";
-import { login } from '../store/userSlice';
+import {login} from '../store/userSlice';
 import {toast} from "react-toastify";
+import {Lock, Visibility, VisibilityOff} from '@mui/icons-material';
 
 const Login = () => {
 	const router = useRouter();
+	const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
+	useEffect(() => {
+		if (isLoggedIn) router.push('/');
+	}, [])
+
 	const dispatch = useDispatch();
-	const { sendReq, response, error, loading } = useLogin();
+	const {sendReq, response, error, loading} = useLogin();
 
 	const [formData, setFormData] = useState({
-		email: '',
-		password: '',
+		email: '', password: '',
 	});
 	const [showPassword, setShowPassword] = useState(false);
 	const [formErrors, setFormErrors] = useState({});
@@ -44,14 +51,12 @@ const Login = () => {
 
 	const handleChange = (field) => (event) => {
 		setFormData(prev => ({
-			...prev,
-			[field]: event.target.value
+			...prev, [field]: event.target.value
 		}));
 		// Clear field error when user starts typing
 		if (formErrors[field]) {
 			setFormErrors(prev => ({
-				...prev,
-				[field]: ''
+				...prev, [field]: ''
 			}));
 		}
 	};
@@ -89,8 +94,7 @@ const Login = () => {
 		setShowPassword(!showPassword);
 	};
 
-	return (
-		<Box
+	return (<Box
 			sx={{
 				minHeight: '100vh',
 				backgroundColor: '#f8fafc',
@@ -118,19 +122,11 @@ const Login = () => {
 						align="center"
 						gutterBottom
 						sx={{
-							fontWeight: '600',
-							color: 'primary.main',
-							mb: 3,
+							fontWeight: '600', color: 'primary.main', mb: 3,
 						}}
 					>
 						Welcome Back
 					</Typography>
-
-					{(error || formErrors.general) && (
-						<Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
-							{error || formErrors.general}
-						</Alert>
-					)}
 
 					<Box>
 						<Stack spacing={3}>
@@ -146,12 +142,21 @@ const Login = () => {
 
 							<TextField
 								label="Password"
-								type="password"
+								type={showPassword ? 'text' : 'password'}
 								value={formData.password}
 								onChange={handleChange('password')}
 								error={!!formErrors.password}
 								helperText={formErrors.password}
 								fullWidth
+								InputProps={{
+									startAdornment: (<InputAdornment position="start">
+											<Lock sx={{color: 'text.secondary'}}/>
+										</InputAdornment>), endAdornment: (<InputAdornment position="end">
+											<IconButton onClick={handleClickShowPassword} edge="end">
+												{showPassword ? <VisibilityOff/> : <Visibility/>}
+											</IconButton>
+										</InputAdornment>),
+								}}
 							/>
 
 							<Button
@@ -162,12 +167,10 @@ const Login = () => {
 								onClick={handleSubmit}
 								disabled={loading}
 								sx={{
-									py: 1.5,
-									fontSize: '1rem',
-									fontWeight: '600',
+									py: 1.5, fontSize: '1rem', fontWeight: '600',
 								}}
 							>
-								{loading ? <CircularProgress size={24} /> : 'Sign In'}
+								{loading ? <CircularProgress size={24}/> : 'Log In'}
 							</Button>
 
 							<Box textAlign="center">
@@ -176,9 +179,7 @@ const Login = () => {
 									<Button
 										onClick={() => router.push('/signup')}
 										sx={{
-											textTransform: 'none',
-											fontWeight: '600',
-											color: 'primary.main',
+											textTransform: 'none', fontWeight: '600', color: 'primary.main',
 										}}
 									>
 										Create Account
@@ -189,8 +190,7 @@ const Login = () => {
 					</Box>
 				</Paper>
 			</Container>
-		</Box>
-	);
+		</Box>);
 };
 
 export default Login;

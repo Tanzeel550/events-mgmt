@@ -81,3 +81,55 @@ exports.sendEventUpdatedEmail = async (user, event) => {
 		// throw new CustomError("Event Edited Successfully. Failed to send event updation email", 500);
 	}
 };
+
+exports.sendSignupEmail = async (user) => {
+	try {
+		const body = renderTemplate('signup', {
+			name: user.name,
+			email: user.email,
+			signupDate: new Date().toDateString(),
+			year: new Date().getFullYear()
+		});
+
+		await fetch('https://api.useplunk.com/v1/send', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${process.env.PLUNK_API_KEY}`
+			},
+			body: JSON.stringify({
+				to: user.email,
+				subject: 'Welcome to Zeelus!',
+				body: body
+			})
+		});
+	} catch (err) {
+		console.log("Account created successfully. Failed to send welcome email");
+	}
+};
+
+exports.sendLoginEmail = async (user) => {
+	try {
+		const body = renderTemplate('login', {
+			name: user.name,
+			email: user.email,
+			loginTime: new Date().toLocaleString(),
+			year: new Date().getFullYear()
+		});
+
+		await fetch('https://api.useplunk.com/v1/send', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${process.env.PLUNK_API_KEY}`
+			},
+			body: JSON.stringify({
+				to: user.email,
+				subject: 'Welcome Back to Zeelus!',
+				body: body
+			})
+		});
+	} catch (err) {
+		console.log("Login successful. Failed to send login notification email");
+	}
+};

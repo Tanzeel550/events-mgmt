@@ -1,11 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {Box, Button, Card, CardContent, CircularProgress, Container, Grid, Stack, Typography,} from '@mui/material';
-import {AccessTime, Add, CalendarToday, Edit} from '@mui/icons-material';
-import {useGetMyEvents} from '../hooks/eventService';
+import {Box, Button, Card, CardContent, Container, Grid, Stack, Typography,} from '@mui/material';
+import {AccessTime, Add, CalendarToday, Delete, Edit} from '@mui/icons-material';
+import {useDeleteEvent, useGetMyEvents} from '../hooks/eventService';
+import Loader from "@/components/utils/Loader";
+import {useSelector} from "react-redux";
 
 const MyEvents = () => {
 	const router = useRouter();
+	const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
+	useEffect(() => {
+		if (!isLoggedIn) router.push('/login');
+	}, [])
+
 	const {events, loading, error} = useGetMyEvents();
 
 	const formatDate = (dateString) => {
@@ -26,11 +34,7 @@ const MyEvents = () => {
 	};
 
 
-	if (loading) {
-		return <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-			<CircularProgress/>
-		</Box>
-	}
+	if (loading) return <Loader/>
 
 
 	if (error) {
@@ -105,7 +109,7 @@ const MyEvents = () => {
 						<Button
 							variant="contained"
 							startIcon={<Add/>}
-							onClick={() => router.push('/events/create')}
+							onClick={() => router.push('/create-event')}
 						>
 							Create Event
 						</Button>
@@ -113,7 +117,7 @@ const MyEvents = () => {
 				) : (
 					<Grid container spacing={3}>
 						{events.map((event) => (
-							<Grid item xs={12} sm={6} md={4} key={event._id}>
+							<Grid item xs={12} sm={6} md={4} key={event._id} id={`event-${event._id}`}>
 								<Card
 									sx={{
 										height: '100%',
@@ -191,6 +195,28 @@ const MyEvents = () => {
 												}}
 											>
 												Edit
+											</Button>
+											<Button
+												variant="outlined"
+												color="error"
+												startIcon={<Delete/>}
+												onClick={async (e) => {
+													e.preventDefault();
+													if (window.confirm('Are you sure you want to cancel this booking?')) {
+														const res = await useDeleteEvent(event._id);
+														if (res) {
+															const elem = document.getElementById(`event-${event._id}`);
+															elem.classList.add('hide');
+															setTimeout(() => elem.remove(), 500);
+														}
+													}
+												}}
+												sx={{
+													textTransform: 'none',
+													fontWeight: '600',
+												}}
+											>
+												Delete
 											</Button>
 										</Stack>
 									</CardContent>

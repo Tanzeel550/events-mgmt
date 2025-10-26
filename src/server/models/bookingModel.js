@@ -25,7 +25,7 @@ bookingSchema.pre(/^find/, function (next) {
 	}).populate({
 		path: 'eventId',
 		model: 'events',
-		select: 'title location date', // no nested populate here
+		select: 'title description date startTime endTime creator',
 	});
 	next();
 });

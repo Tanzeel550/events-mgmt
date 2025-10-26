@@ -64,20 +64,20 @@ const eventSchema = new mongoose.Schema(
 	}
 );
 
-eventSchema.virtual('bookings', {
-	ref: 'bookings',
-	localField: '_id',
-	foreignField: 'eventId'
-});
+// eventSchema.virtual('bookings', {
+// 	ref: 'bookings',
+// 	localField: '_id',
+// 	foreignField: 'eventId'
+// });
 
 eventSchema.pre(/^find/, function (next) {
 	this.populate({
-		path: 'bookings',
-		populate: {
-			path: 'userId',
-			select: 'name email',
-		},
-	}).populate({
+	// 	path: 'bookings',
+	// 	populate: {
+	// 		path: 'userId',
+	// 		select: 'name email',
+	// 	},
+	// }).populate({
 		path: 'creator',
 		select: 'name email',
 	});

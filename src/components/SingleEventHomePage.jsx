@@ -1,31 +1,39 @@
 import {Box, Button, Card, CardContent, Grid, Stack, Typography} from "@mui/material";
 import {AccessTime, Bookmark, CalendarToday, Edit} from "@mui/icons-material";
 import {useCreateBooking} from "@/hooks/bookingService";
+import {useSelector} from "react-redux";
+import {useEffect} from "react";
+import {toast} from "react-toastify";
 
 export default function SingleEventHomePage({event}) {
 	const {createBooking, createdBooking, loading, error} = useCreateBooking();
+	const {user, isLoggedIn} = useSelector(state => state.user);
 
 	const handleCreateBooking = e => {
 		e.preventDefault();
 		createBooking(event._id);
 	}
 
+	useEffect(() => {
+		if (error) toast.error(error);
+	}, [error]);
+
+	useEffect(() => {
+		if (createdBooking)
+			toast.success('Booking created successfully');
+	}, [createdBooking]);
+
 	const formatDate = (dateString) => {
 		if (!dateString) return '';
 		return new Date(dateString).toLocaleDateString('en-US', {
-			weekday: 'short',
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric'
+			weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
 		});
 	};
 
 	const formatTime = (timeString) => {
 		if (!timeString) return '';
 		return new Date(`1970-01-01T${timeString}`).toLocaleTimeString('en-US', {
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: false
+			hour: '2-digit', minute: '2-digit', hour12: false
 		});
 	};
 
@@ -90,7 +98,7 @@ export default function SingleEventHomePage({event}) {
 
 				{/* Action Buttons */}
 				<Stack direction="row" spacing={1}>
-					<Button
+					{isLoggedIn && user._id === event.creator && <Button
 						variant="outlined"
 						size="small"
 						startIcon={<Edit/>}
@@ -100,8 +108,8 @@ export default function SingleEventHomePage({event}) {
 						}}
 					>
 						Edit
-					</Button>
-					{!createdBooking && <Button
+					</Button>}
+					{isLoggedIn && !createdBooking && user._id !== event.creator && <Button
 						variant="contained"
 						size="small"
 						startIcon={<Bookmark/>}
@@ -112,8 +120,7 @@ export default function SingleEventHomePage({event}) {
 						disabled={loading}
 					>
 						Book
-					</Button>
-					}
+					</Button>}
 				</Stack>
 			</CardContent>
 		</Card>

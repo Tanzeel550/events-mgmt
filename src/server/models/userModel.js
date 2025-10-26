@@ -78,16 +78,16 @@ userSchema.virtual('bookings', {
 	foreignField: 'userId'
 });
 
-userSchema.pre(/^find/, function (next) {
-	this.populate({
-		path: 'bookings',
-		populate: {
-			path: 'eventId',
-			select: 'title location date',
-		},
-	});
-	next();
-});
+// userSchema.pre(/^find/, function (next) {
+// 	this.populate({
+// 		path: 'bookings',
+// 		populate: {
+// 			path: 'eventId',
+// 			select: 'title location date',
+// 		},
+// 	});
+// 	next();
+// });
 
 userSchema.virtual("age").get(function () {
 	const today = new Date(),	dateOfBirth = new Date(this.dob);

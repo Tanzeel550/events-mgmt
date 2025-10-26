@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import EventForm from './../components/EventForm';
 import {toast} from "react-toastify";
 import {useCreateEvent} from "@/hooks/eventService";
 import {useRouter} from "next/router";
+import {useSelector} from "react-redux";
 
 const CreateEventPage = () => {
 	const router = useRouter();
+	const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
+	useEffect(() => {
+		if (!isLoggedIn) router.push('/login');
+	}, [])
+
 	const { createEvent, loading } = useCreateEvent();
 
 	const handleSubmit = async (formData) => {

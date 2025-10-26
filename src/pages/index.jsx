@@ -19,6 +19,7 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import SingleEventHomePage from "@/components/SingleEventHomePage";
+import {useEffect} from "react";
 
 export default function ClientPage() {
 	const {events, pagination, loading, error, getEvents} = useGetEvents();
@@ -27,6 +28,10 @@ export default function ClientPage() {
 		console.log(data);
 		getEvents({...data});
 	}
+
+	useEffect(() => {
+		getEvents();
+	}, []);
 
 
 	return (<>

@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import {toast} from "react-toastify";
 
 export const useGetMyBookings = () => {
 	const [bookings, setBookings] = useState([]);
@@ -44,11 +44,9 @@ export const useCreateBooking = () => {
 				withCredentials: true, headers: {'Content-Type': 'application/json'},
 			});
 			setCreatedBooking(res.data?.data?.booking || null);
-			toast.success('Booking created successfully');
 		} catch (err) {
 			const msg = err.response?.data?.message || 'Failed to create booking';
 			setError(msg);
-			toast.error(msg);
 		} finally {
 			setLoading(false);
 		}
@@ -58,32 +56,17 @@ export const useCreateBooking = () => {
 };
 
 
-export const useDeleteBooking = () => {
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(null);
-	const [success, setSuccess] = useState(false);
+export const useDeleteMyBooking = async (bookingId) => {
+	try {
+		await axios.delete(`/api/v1/bookings/${bookingId}`, {
+			withCredentials: true,
+		});
 
-	const deleteBooking = async (bookingId) => {
-		try {
-			setLoading(true);
-			setError(null);
-			setSuccess(false);
-
-			await axios.delete(`/api/v1/bookings/${bookingId}`, {
-				withCredentials: true,
-			});
-
-			setSuccess(true);
-			toast.success('Booking deleted successfully');
-		} catch (err) {
-			const msg = err.response?.data?.message || 'Failed to delete booking';
-			setError(msg);
-			toast.error(msg);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	return {deleteBooking, loading, error, success};
+		toast.success('Booking deleted successfully');
+		return true;
+	} catch (err) {
+		toast.error(err.message);
+		return false;
+	}
 };
 
