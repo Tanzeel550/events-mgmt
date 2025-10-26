@@ -1,10 +1,11 @@
 import useCustomReactQuery from './useCustomReactQuery';
 import axios from "axios";
 import {useState} from "react";
+import BACKEND_ROUTE from "@/BACKEND_ROUTE";
 
 export const useSignup = () => {
 	const {response, error, loading, execute} = useCustomReactQuery(
-		'/api/v1/auth/signup',
+		BACKEND_ROUTE+'/api/v1/auth/signup',
 		'POST',
 		null, // body will be passed in execute
 		{}, // config
@@ -28,7 +29,7 @@ export const useLogin = () => {
 			setLoading(true);
 			setError(null);
 
-			const result = await axios.post('/api/v1/auth/login', credentials, {
+			const result = await axios.post(BACKEND_ROUTE+'/api/v1/auth/login', credentials, {
 				withCredentials: true
 			});
 
@@ -50,7 +51,7 @@ export const useLogin = () => {
 
 export async function useGetMe() {
 	try {
-		const res = await axios.get("/api/v1/auth/me", {
+		const res = await axios.get(BACKEND_ROUTE+"/api/v1/auth/me", {
 			withCredentials: true, // includes cookie "token" if backend sends it
 		});
 

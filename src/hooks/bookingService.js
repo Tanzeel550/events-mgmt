@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {toast} from "react-toastify";
+import BACKEND_ROUTE from "@/BACKEND_ROUTE";
 
 export const useGetMyBookings = () => {
 	const [bookings, setBookings] = useState([]);
@@ -12,7 +13,7 @@ export const useGetMyBookings = () => {
 			try {
 				setLoading(true);
 				setError(null);
-				const res = await axios.get('/api/v1/bookings', {
+				const res = await axios.get(BACKEND_ROUTE+'/api/v1/bookings', {
 					withCredentials: true,
 				});
 				setBookings(res.data?.data?.bookings || []);
@@ -40,7 +41,7 @@ export const useCreateBooking = () => {
 		try {
 			setLoading(true);
 			setError(null);
-			const res = await axios.post('/api/v1/bookings', {eventId}, {
+			const res = await axios.post(BACKEND_ROUTE+'/api/v1/bookings', {eventId}, {
 				withCredentials: true, headers: {'Content-Type': 'application/json'},
 			});
 			setCreatedBooking(res.data?.data?.booking || null);
@@ -58,7 +59,7 @@ export const useCreateBooking = () => {
 
 export const useDeleteMyBooking = async (bookingId) => {
 	try {
-		await axios.delete(`/api/v1/bookings/${bookingId}`, {
+		await axios.delete(BACKEND_ROUTE+`/api/v1/bookings/${bookingId}`, {
 			withCredentials: true,
 		});
 

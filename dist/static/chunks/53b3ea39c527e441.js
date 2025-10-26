@@ -1,0 +1,10 @@
+__turbopack_load_page_chunks__("/edit-event/[id]", [
+  "static/chunks/eee5046c5c206f38.js",
+  "static/chunks/3539c16b7597facd.js",
+  "static/chunks/448b98b993a9b893.js",
+  "static/chunks/34523db72273acf9.js",
+  "static/chunks/f9dd158734650f18.js",
+  "static/chunks/314fe836212436cd.js",
+  "static/chunks/e9433c41a213a6b4.js",
+  "static/chunks/turbopack-2d9131ac96fa6198.js"
+])

@@ -1,0 +1,7 @@
+__turbopack_load_page_chunks__("/my-bookings", [
+  "static/chunks/25d3157337adf5fd.js",
+  "static/chunks/3539c16b7597facd.js",
+  "static/chunks/e9433c41a213a6b4.js",
+  "static/chunks/be554359761ded35.js",
+  "static/chunks/turbopack-2aaca47452283b2e.js"
+])

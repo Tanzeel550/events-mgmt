@@ -2,10 +2,11 @@ import useCustomReactQuery from '../hooks/useCustomReactQuery';
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import axios from "axios";
+import BACKEND_ROUTE from "@/BACKEND_ROUTE";
 
 export const useCreateEvent = () => {
 	const {response, error, loading, execute} = useCustomReactQuery(
-		'/api/v1/events',
+		BACKEND_ROUTE+'/api/v1/events',
 		'POST',
 		null,
 		{},
@@ -30,7 +31,7 @@ export const useGetMyEvents = () => {
 				setLoading(true);
 				setError(null);
 
-				const res = await axios.get('/api/v1/events/get-my-events', {
+				const res = await axios.get(BACKEND_ROUTE+'/api/v1/events/get-my-events', {
 					withCredentials: true,
 					headers: {'Content-Type': 'application/json'},
 				});
@@ -65,7 +66,7 @@ export const useGetEvent = (id) => {
 			try {
 				setError(null);
 
-				const res = await axios.get(`/api/v1/events/${id}`, {
+				const res = await axios.get(BACKEND_ROUTE+`/api/v1/events/${id}`, {
 					withCredentials: true,
 					headers: {'Content-Type': 'application/json'},
 				});
@@ -90,7 +91,7 @@ export const useGetEvent = (id) => {
 export const useUpdateEvent = () => {
 	return async (id, formData) => {
 		try {
-			const res = await axios.put(`/api/v1/events/${id}`, formData, {
+			const res = await axios.put(BACKEND_ROUTE+`/api/v1/events/${id}`, formData, {
 				withCredentials: true,
 				headers: {'Content-Type': 'application/json'},
 			});
@@ -103,7 +104,7 @@ export const useUpdateEvent = () => {
 
 export const useDeleteEvent = async (eventId) => {
 	try {
-		await axios.delete(`/api/v1/events/${eventId}`, {
+		await axios.delete(BACKEND_ROUTE+`/api/v1/events/${eventId}`, {
 			withCredentials: true
 		});
 		return true;
@@ -132,7 +133,7 @@ export const useGetEvents = () => {
 
 		try {
 			console.log(params);
-			const response = await axios.get('/api/v1/events', {params});
+			const response = await axios.get(BACKEND_ROUTE+'/api/v1/events', {params});
 			const result = response.data;
 
 			if (result.status === "success") {

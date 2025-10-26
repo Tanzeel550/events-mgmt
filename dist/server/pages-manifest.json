@@ -1,0 +1,13 @@
+{
+  "/": "pages/index.html",
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
+  "/create-event": "pages/create-event.html",
+  "/edit-event/[id]": "pages/edit-event/[id].html",
+  "/login": "pages/login.html",
+  "/my-bookings": "pages/my-bookings.html",
+  "/my-events": "pages/my-events.html",
+  "/signup": "pages/signup.html",
+  "/404": "pages/404.html"
+}

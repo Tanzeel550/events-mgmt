@@ -1,0 +1,21 @@
+(globalThis.TURBOPACK_CHUNK_LISTS || (globalThis.TURBOPACK_CHUNK_LISTS = [])).push({
+    script: typeof document === "object" ? document.currentScript : undefined,
+    chunks: [
+  "static/chunks/node_modules_next_dist_compiled_44618872._.js",
+  "static/chunks/node_modules_next_dist_shared_lib_82dc2e9d._.js",
+  "static/chunks/node_modules_next_dist_client_d0aa886c._.js",
+  "static/chunks/node_modules_next_dist_7fdbac9b._.js",
+  "static/chunks/node_modules_react-dom_4411d9bd._.js",
+  "static/chunks/node_modules_@mui_system_esm_d0359a45._.js",
+  "static/chunks/node_modules_@mui_material_esm_44171faa._.js",
+  "static/chunks/node_modules_@mui_x-date-pickers_esm_internals_21eb2876._.js",
+  "static/chunks/node_modules_@mui_x-date-pickers_esm_PickersTextField_8e6bc9f8._.js",
+  "static/chunks/node_modules_@mui_x-date-pickers_esm_39433b0c._.js",
+  "static/chunks/node_modules_@popperjs_core_lib_bd65ae83._.js",
+  "static/chunks/node_modules_date-fns_6deb32cb._.js",
+  "static/chunks/node_modules_axios_lib_2c8bf6cb._.js",
+  "static/chunks/node_modules_ed61341b._.js",
+  "static/chunks/[root-of-the-server]__7f93b1c7._.js"
+],
+    source: "entry"
+});
